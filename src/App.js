@@ -1,26 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ReactDOM from 'react-dom'
+import axios from 'axios'
 
-function App() {
+class App extends React.Component {
+  state ={
+    username: '',
+    name: ''
+  }
+
+  componentDidMount(){
+    axios.get('https://api.github.com/users/dstemple7')
+    .then(res => {
+      this.setState({
+        username: res.data.login,
+        name: res.data.name
+      })
+    })
+  }
+
+  handleChanges = e => {
+    this.setState({
+      username: e.target.value
+    })
+  }
+
+  fetchUsers = e => {
+    e.preventDefault()
+    axios
+      .get(`https://api.github.com/users/${this.state.username}`)
+      .then(res => {
+        this.setState ({
+          username:res.data.login,
+          name: res.data.name
+        })
+      })
+  }
+
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>GitHub User</h1>
+      <input
+        type='text'
+        value={this.state.username}
+        onChange={this.handleChanges}
+      />
+      <button onClick={this.fetchUsers}>Fetch User</button>
+      <div>
+        <h3>{this.state.username},  {this.state.name}</h3>
+      </div>     
     </div>
-  );
+  )}
 }
 
 export default App;
