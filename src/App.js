@@ -4,10 +4,11 @@ import axios from 'axios'
 class App extends React.Component {
   state ={
     username: '',
+    login: 'dstemple7',
     name: '',
     img: '',
     location: '', 
-    followers:[]
+    followers:['Shhh, it is a secret...but hit the "Fetch Followers" button if you must learn more...']
   }
 
   componentDidMount(){
